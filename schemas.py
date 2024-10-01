@@ -1,7 +1,8 @@
 from typing import Union
 
 from pydantic import BaseModel
-
+from datetime import datetime, date
+from typing import List, Optional
 class User(BaseModel):
     id: int
     name: str
@@ -16,8 +17,8 @@ class ClubBase(BaseModel):
     min_capacity: int
     max_capacity: int
     time: datetime
-    start_period: datetime
-    end_period: datetime
+    start_period: date
+    end_period: date
     fee: int
     img_url: Optional[str] = None
     title: str
@@ -57,9 +58,9 @@ class Facilities(BaseModel):
     phone: str
     road_address: str
     img_urls: str
-    subject_ids: List[int]  # Assuming this will be a list of IDs
-    level_ids: List[int]     # Assuming this will be a list of IDs
-    disability_type_ids: List[int]  # Assuming this will be a list of IDs
+    subject_ids: int  # Assuming this will be a list of IDs *********** This should be replaced with List[int] later! ***********
+    level_ids: int    # Assuming this will be a list of IDs
+    recommended_target_ids: int  # Assuming this will be a list of IDs
 
     class Config:
         orm_mode = True

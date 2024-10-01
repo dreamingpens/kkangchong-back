@@ -1,8 +1,8 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Query
 from models import Base
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
+import crud, models, schemas
 from database import SessionLocal, engine
 
 app = FastAPI()
@@ -31,14 +31,16 @@ def read_levels(db: Session=Depends(get_db)):
     levels=crud.get_levels(db)
     return levels
 
-@app.get("/disability_type/all", response_model=list[schemas.DisabilityTypes])
-def read_disability_types(db: Session=Depends(get_db)):
-    disability_types=crud.get_disability_types(db)
-    return disability_types
+@app.get("/recommended_target/all", response_model=list[schemas.DisabilityTypes])
+def read_recommended_targets(db: Session=Depends(get_db)):
+    recommended_targets=crud.get_recommended_targets(db)
+    return recommended_targets
 
 @app.get("/facility", response_model=list[schemas.Facilities])
-def read_facilities(subject_ids: list[int], level_ids:list[int], disability_type_ids:list[int], db: Session=Depends(get_db)):
-    facilities=crud.get_facilities(db,subject_ids=subject_ids, level_ids=level_ids, disability_type_ids=disability_type_ids)
+def read_facilities(subject_ids: list[int] = Query(..., description="List of subject IDs"), 
+                    level_ids:list[int] = Query(..., description = "List of level IDs"), 
+                    recommended_target_ids:list[int]=Query(..., description = "List of recommended target IDs"), db: Session=Depends(get_db)):
+    facilities=crud.get_facilities(db,subject_ids=subject_ids, level_ids=level_ids, recommended_target_ids=recommended_target_ids)
     return facilities
 
 # @app.get("/review")
@@ -60,7 +62,6 @@ def create_clubs(club: schemas.ClubCreate, db: Session = Depends(get_db)):
         min_capacity=club.min_capacity,
         max_capacity=club.max_capacity,
         time=club.time,
-        repeat=club.repeat,
         start_period=club.start_period,
         end_period=club.end_period,
         fee=club.fee,
