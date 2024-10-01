@@ -45,9 +45,9 @@ class Facilities(Base):
     phone = Column(String)
     road_address = Column(String)
     img_urls = Column(String)
-    subject_ids = Column(String, ForeignKey("subjects.id"))
-    level_ids = Column(String, ForeignKey("levels.id"))
-    disability_type_ids = Column(String, ForeignKey("disability_types.id"))
+    subject_ids = Column(Integer, ForeignKey("subjects.id"))
+    level_ids = Column(Integer, ForeignKey("levels.id"))
+    disability_type_ids = Column(Integer, ForeignKey("disability_types.id"))
 
 class Subjects(Base):
     __tablename__ = 'subjects'
