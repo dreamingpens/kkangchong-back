@@ -39,7 +39,7 @@ class Facilities(Base):
     img_urls = Column(String)
     subject_ids = Column(Integer, ForeignKey("subjects.id"))
     level_ids = Column(Integer, ForeignKey("levels.id"))
-    disability_type_ids = Column(Integer, ForeignKey("recommended_targets.id"))
+    recommended_target_ids = Column(Integer, ForeignKey("recommended_targets.id"))
 
 class Subjects(Base):
     __tablename__ = 'subjects'

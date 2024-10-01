@@ -38,12 +38,13 @@ session.add(new_member)
 # 4. Facilities 테이블에 데이터 삽입
 new_facility = Facilities(
     id=1,
+    name="SRC 스포츠센터 서울센터",
     phone="02-871-3636",
     road_address="서울 관악구 보라매로 44 2층",
     img_urls="https://img1.kakaocdn.net/cthumb/local/R0x420.q50/?fname=https%3A%2F%2Fpostfiles.pstatic.net%2FMjAyMzAzMDhfMjc2%2FMDAxNjc4MjQ5OTAyNjA0.6MUglHvKW3QZCeki_vsPEYHIgp8dZOdhXCsnDf2HGBIg.miLVtlUmsgt7DANuwyysqqI1nn-eaaDBcCVdr9cHS0cg.JPEG.b1a49923%2FIMG_1379.jpg%3Ftype%3Dw773",
     subject_ids=1,
     level_ids=1,
-    disability_type_ids=1
+    recommended_target_ids=1
 )
 session.add(new_facility)
 
@@ -68,13 +69,13 @@ new_levels = [
 session.add_all(new_levels)
 
 # 7. DisabilityTypes 테이블에 데이터 삽입
-new_disability_types = [
+new_recommended_targets = [
     RecommendedTargets(name="20대 이하"),
     RecommendedTargets(name="30대"),
     RecommendedTargets(name="40대"),
     RecommendedTargets(name="50대 이상"),
 ]
-session.add_all(new_disability_types)
+session.add_all(new_recommended_targets)
 
 # 커밋하여 데이터베이스에 저장
 session.commit()
