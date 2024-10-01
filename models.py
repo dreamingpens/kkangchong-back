@@ -1,12 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Enum
-import enum
-
-class RepeatType(enum.Enum):
-    weekly = 'weekly'
-    monthly_by_position = 'monthly_by_position'
-    monthly_by_date = 'monthly_by_date'
-
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Date
 class Users(Base):
     __tablename__ = 'users'
 
@@ -22,9 +15,8 @@ class Clubs(Base):
     min_capacity = Column(Integer)
     max_capacity = Column(Integer)
     time = Column(DateTime)
-    repeat = Column(Enum(RepeatType))
-    start_period = Column(DateTime)
-    end_period = Column(DateTime)
+    start_period = Column(Date)
+    end_period = Column(Date)
     fee = Column(Integer)
     img_url = Column(String)
     title = Column(String)
@@ -45,9 +37,9 @@ class Facilities(Base):
     phone = Column(String)
     road_address = Column(String)
     img_urls = Column(String)
-    subject_ids = Column(String, ForeignKey("subjects.id"))
-    level_ids = Column(String, ForeignKey("levels.id"))
-    disability_type_ids = Column(String, ForeignKey("disability_types.id"))
+    subject_ids = Column(Integer, ForeignKey("subjects.id"))
+    level_ids = Column(Integer, ForeignKey("levels.id"))
+    disability_type_ids = Column(Integer, ForeignKey("recommended_targets.id"))
 
 class Subjects(Base):
     __tablename__ = 'subjects'
@@ -62,8 +54,8 @@ class Levels(Base):
     name = Column(String)
     description = Column(String)
 
-class DisabilityTypes(Base):
-    __tablename__ = 'disability_types'
+class RecommendedTargets(Base):
+    __tablename__ = 'recommended_targets'
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
