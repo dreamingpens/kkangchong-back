@@ -4,6 +4,7 @@ import openai
 import re
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()  # .env 파일에서 환경변수 로드
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -11,13 +12,13 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # 사용자 입력 데이터 모델
 class UserInput(BaseModel):
-    arm_angle: float
-    torso_left_angle: float
-    torso_right_angle: float
-    body_left_tilt: float
-    body_right_tilt: float
-    core_strength_time: float
-    arm_strength_time: float
+    arm_angle: float  # 팔을 양옆으로 들 수 있는 각도 (0-180도)
+    torso_left_angle: float  # 허리를 왼쪽으로 돌릴 수 있는 각도 (0-70도)
+    torso_right_angle: float  # 허리를 오른쪽으로 돌릴 수 있는 각도 (0-70도)
+    body_left_tilt: float  # 몸을 왼쪽으로 기울일 수 있는 각도 (0-80도)
+    body_right_tilt: float  # 몸을 오른쪽으로 기울일 수 있는 각도 (0-80도)
+    core_strength_time: float  # 등받이에 등을 떼고 허리를 세울 수 있는 시간 (초)
+    punch_count: int  # 10초 안에 허공에 주먹 지르기 횟수
 
 # 추천 결과 데이터 모델
 class RecommendationOutput(BaseModel):
@@ -36,6 +37,15 @@ class RecommendationOutput(BaseModel):
 
 # FastAPI 애플리케이션 초기화
 app = FastAPI()
+
+# CORS 설정 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # LLM 호출 함수
 def call_llm(prompt: str) -> str:
@@ -95,12 +105,12 @@ def generate_prompt(user_input: UserInput) -> str:
 
     사용자 데이터:
     - 팔을 양옆으로 들 수 있는 각도 - 최대 180도
-    - 허리를 왼쪽으로 돌릴 수 있는 각도 - 최대 90도
-    - 허리를 오른쪽으로 돌릴 수 있는 각도 - 최대 90도
-    - 몸을 왼쪽으로 기울일 수 있는 각도 - 최대 45도
-    - 몸을 오른쪽으로 기울일 수 있는 각도 - 최대 45도
-    - 코어 힘 (허리를 세울 수 있는 시간) - 최대 60초
-    - 팔 근력 (팔을 뻗고 유지 가능한 시간) - 최대 60초
+    - 허리를 왼쪽으로 돌릴 수 있는 각도 - 70도 이상인 경우 충분
+    - 허리를 오른쪽으로 돌릴 수 있는 각도 - 70도 이상인 경우 충분
+    - 몸을 왼쪽으로 기울일 수 있는 각도 - 80도 이상이면 충분
+    - 몸을 오른쪽으로 기울일 수 있는 각도 - 80도 이상이면 충분
+    - 코어 힘 (등받이에 등을 떼고 허리를 세울 수 있는 시간) - 60초 이상이면 충분
+    - 팔 근력 (10초 안에 허공에 주먹 지르기 횟수) - 30회 이상이면 충분, 0회면 운동 불가
     
     운동 추천 기준:
     1. 휠체어 농구:
@@ -343,8 +353,8 @@ def generate_prompt(user_input: UserInput) -> str:
     - 허리를 오른쪽으로 돌릴 수 있는 각도: {user_input.torso_right_angle}도
     - 몸을 왼쪽으로 기울일 수 있는 각도: {user_input.body_left_tilt}도
     - 몸을 오른쪽으로 기울일 수 있는 각도: {user_input.body_right_tilt}도
-    - 코어 힘 (허리를 세울 수 있는 시간): {user_input.core_strength_time}초
-    - 팔 근력 (팔을 뻗고 유지 가능한 시간): {user_input.arm_strength_time}초
+    - 코어 힘 (등받이에 등을 떼고 허리를 세울 수 있는 시간): {user_input.core_strength_time}초
+    - 팔 근력 (10초 안에 허공에 주먹 지르기 횟수): {user_input.punch_count}회
 
     결과:
     """
