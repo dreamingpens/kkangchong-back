@@ -1,4 +1,4 @@
 .env
 db/
 myenv/
-.data/
+data/
