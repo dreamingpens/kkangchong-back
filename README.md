@@ -80,11 +80,11 @@ FitFor는 운동 진입 서비스를 휠체어 유저를 대상으로 최초로 
 ## 데모 영상
 
 (데모 영상 링크 또는 GIF 추가)
-
+- [데모](https://fitfor.vercel.app)
 ## 연관 자료
 
 - [최종 발표 자료 링크]
-- [대한장애인체육회 생활체육정보센터](https://dvoucher.kspo.or.kr/file/1.%20%EB%8C%80%ED%95%9C%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%B2%B4%EC%9C%A1%ED%9A%8C_%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%9D%98%20%EC%9D%B4%ED%95%B4.pdf)
+- [장애인생활체육지도자 지도서](https://dvoucher.kspo.or.kr/file/1.%20%EB%8C%80%ED%95%9C%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%B2%B4%EC%9C%A1%ED%9A%8C_%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%9D%98%20%EC%9D%B4%ED%95%B4.pdf)
 - 캥스터즈: https://www.kangsters-crew.com/
 
 ## 팀 소개
