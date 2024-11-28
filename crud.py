@@ -2,18 +2,19 @@ from sqlalchemy.orm import Session
 
 import models, schemas
 
-def get_subjects(db: Session):
-    return db.query(models.Subjects).all()
+def get_clubs(db: Session, subject: str):
+    clubs = db.query(models.Clubs).filter(models.Clubs.subject == subject).all()
 
-def get_levels(db: Session):
-    return db.query(models.Levels).all()
-
-def get_recommended_targets(db: Session):
-    return db.query(models.RecommendedTargets).all()
-
-def get_facilities(db: Session, subject_ids: list[int], level_ids:list[int], recommended_target_ids:list[int]):
-    return db.query(models.Facilities)\
-        .filter(models.Facilities.subject_ids.in_(subject_ids))\
-        .filter(models.Facilities.level_ids.in_(level_ids))\
-        .filter(models.Facilities.recommended_target_ids.in_(recommended_target_ids))\
-        .all()
+    return [
+        {   
+            "id": club.id,
+            "location": club.location,
+            "club_name": club.club_name,
+            "active_time": club.active_time,
+            "subject": club.subject,
+            "other_objects": club.other_objects or "",
+            "disability_type": club.disability_type,
+            "permission_date": club.permission_date
+        }
+        for club in clubs
+    ]
